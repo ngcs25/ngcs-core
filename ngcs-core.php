@@ -7,19 +7,15 @@
  */
  
  
- /*
-Plugin Name: NGCS App
-Plugin URI: https://github.com/ngcs25/ngcsapp
-Description: Our NGCS plugin
-Version: 1.0.0
-Author: Nabeel Gadoun
-Author URI: https://ngcs.co.il
-*/
 
- 
- 
- 
- 
+/*
+Plugin Name: NGCS Core
+Plugin URI: https://github.com/ngcs25/ngcs-core
+GitHub Plugin URI: https://github.com/ngcs25/ngcs-core
+Description: NGCS Core engine
+Version: 1.0.2
+Author: Nabeel Gadoun
+*/
 
 if (!defined('ABSPATH')) exit;
 
@@ -129,3 +125,4 @@ add_shortcode('ngcs_app', function () {
     <?php return ob_get_clean();
 });
 ?>
+
