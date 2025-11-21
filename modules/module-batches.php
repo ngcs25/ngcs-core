@@ -14,37 +14,37 @@ add_action('rest_api_init', function () {
 
     register_rest_route('ngcs/v1', '/batches', [
         'methods'  => 'GET',
-        'callback' => 'ngcs_get_batches',
+        'callback' => 'ngcs_batches_get_batches',
         'permission_callback' => '__return_true'
     ]);
 
     register_rest_route('ngcs/v1', '/get-rows', [
         'methods'  => 'GET',
-        'callback' => 'ngcs_get_batch_rows',
+        'callback' => 'ngcs_batches_get_batch_rows',
         'permission_callback' => '__return_true'
     ]);
 
     register_rest_route('ngcs/v1', '/delete-row', [
         'methods'  => 'POST',
-        'callback' => 'ngcs_delete_row',
+        'callback' => 'ngcs_batches_delete_row',
         'permission_callback' => '__return_true'
     ]);
 
     register_rest_route('ngcs/v1', '/delete-batch', [
         'methods'  => 'POST',
-        'callback' => 'ngcs_delete_batch',
+        'callback' => 'ngcs_batches_delete_batch',
         'permission_callback' => '__return_true'
     ]);
 
     register_rest_route('ngcs/v1', '/send-selected', [
         'methods'  => 'POST',
-        'callback' => 'ngcs_send_selected',
+        'callback' => 'ngcs_batches_send_selected',
         'permission_callback' => '__return_true'
     ]);
 
     register_rest_route('ngcs/v1', '/batch-stats', [
         'methods'  => 'GET',
-        'callback' => 'ngcs_batch_stats',
+        'callback' => 'ngcs_batches_batch_stats',
         'permission_callback' => '__return_true'
     ]);
 
@@ -55,7 +55,7 @@ add_action('rest_api_init', function () {
    1) GET BATCHES FOR USER
    ============================================================ */
 
-function ngcs_get_batches(WP_REST_Request $request)
+function ngcs_batches_get_batches(WP_REST_Request $request)
 {
     global $wpdb;
     $user_id = get_current_user_id();
@@ -81,7 +81,7 @@ function ngcs_get_batches(WP_REST_Request $request)
    2) GET ROWS OF A BATCH + PAGINATION
    ============================================================ */
 
-function ngcs_get_batch_rows(WP_REST_Request $request)
+function ngcs_batches_get_batch_rows(WP_REST_Request $request)
 {
     global $wpdb;
 
@@ -117,7 +117,7 @@ function ngcs_get_batch_rows(WP_REST_Request $request)
    3) DELETE A SINGLE ROW
    ============================================================ */
 
-function ngcs_delete_row(WP_REST_Request $request)
+function ngcs_batches_delete_row(WP_REST_Request $request)
 {
     global $wpdb;
 
@@ -135,7 +135,7 @@ function ngcs_delete_row(WP_REST_Request $request)
    4) DELETE ENTIRE BATCH
    ============================================================ */
 
-function ngcs_delete_batch(WP_REST_Request $request)
+function ngcs_batches_delete_batch(WP_REST_Request $request)
 {
     global $wpdb;
 
@@ -155,7 +155,7 @@ function ngcs_delete_batch(WP_REST_Request $request)
    5) SEND SELECTED ROWS → FORWARD TO N8N
    ============================================================ */
 
-function ngcs_send_selected(WP_REST_Request $request)
+function ngcs_batches_send_selected(WP_REST_Request $request)
 {
     $row_ids = $request->get_param('rows');
     $batch_id = intval($request->get_param('batch_id'));
@@ -183,7 +183,7 @@ function ngcs_send_selected(WP_REST_Request $request)
    6) GET BATCH STATS
    ============================================================ */
 
-function ngcs_batch_stats(WP_REST_Request $request)
+function ngcs_batches_batch_stats(WP_REST_Request $request)
 {
     global $wpdb;
 
