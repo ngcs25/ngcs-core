@@ -5,17 +5,6 @@
  * Version: 1.0.0
  * Author: NGCS
  */
- 
- 
-
-/*
-Plugin Name: NGCS Core
-Plugin URI: https://github.com/ngcs25/ngcs-core
-GitHub Plugin URI: https://github.com/ngcs25/ngcs-core
-Description: NGCS Core engine
-Version: 1.0.2
-Author: Nabeel Gadoun
-*/
 
 if (!defined('ABSPATH')) exit;
 
@@ -36,6 +25,11 @@ foreach ($modules as $m) {
     if (file_exists($path)) require_once $path;
 }
 
+// Load includes (webhook, utilities)
+if (file_exists(__DIR__ . '/includes/webhook.php')) {
+    require_once __DIR__ . '/includes/webhook.php';
+}
+
 /* ============================================================
    ENQUEUE ASSETS
    ============================================================ */
@@ -52,22 +46,22 @@ function ngcs_enqueue_dashboard_assets() {
     if (strpos($post->post_content, '[ngcs_app]') !== false ||
         strpos($post->post_content, '[ngcs_connect_whatsapp]') !== false) {
 
-        wp_localize_script('ngcs-dashboard-js', 'NGCS_AJAX', [
-            'rest_url' => site_url('/wp-json/')
-        ]);
-
         wp_enqueue_script(
             'ngcs-dashboard-js',
             plugins_url('assets/js/ngcs-dashboard.js', __FILE__),
-            ['jquery'],
+            array('jquery'),
             time(),
             true
         );
 
+        wp_localize_script('ngcs-dashboard-js', 'NGCS_AJAX', array(
+            'rest_url' => site_url('/wp-json/')
+        ));
+
         wp_enqueue_style(
             'ngcs-dashboard-css',
             plugins_url('assets/css/ngcs-dashboard.css', __FILE__),
-            [],
+            array(),
             time()
         );
     }
@@ -125,4 +119,3 @@ add_shortcode('ngcs_app', function () {
     <?php return ob_get_clean();
 });
 ?>
-

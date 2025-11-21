@@ -47,7 +47,6 @@ add_action('rest_api_init', function () {
         'callback' => 'ngcs_batches_batch_stats',
         'permission_callback' => '__return_true'
     ]);
-
 });
 
 
@@ -60,13 +59,10 @@ function ngcs_batches_get_batches(WP_REST_Request $request)
     global $wpdb;
     $user_id = get_current_user_id();
 
-    $table = $wpdb->prefix . 'ngcs_excel_batches';
+    $table = $wpdb->prefix . 'ngcs_batches';
 
     $rows = $wpdb->get_results($wpdb->prepare(
-        "SELECT id, file_name, created_at 
-         FROM $table 
-         WHERE user_id = %d
-         ORDER BY id DESC",
+        "SELECT id, file_name, created_at \n         FROM $table \n         WHERE user_id = %d\n         ORDER BY id DESC",
         $user_id
     ));
 
@@ -90,17 +86,14 @@ function ngcs_batches_get_batch_rows(WP_REST_Request $request)
     $limit    = intval($request->get_param('limit')) ?: 25;
     $offset   = ($page - 1) * $limit;
 
-    $table = $wpdb->prefix . 'ngcs_excel_rows';
+    $table = $wpdb->prefix . 'ngcs_batch_rows';
 
     $total = $wpdb->get_var(
         $wpdb->prepare("SELECT COUNT(*) FROM $table WHERE batch_id = %d", $batch_id)
     );
 
     $rows = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table 
-         WHERE batch_id = %d 
-         ORDER BY id ASC 
-         LIMIT %d OFFSET %d",
+        "SELECT * FROM $table \n         WHERE batch_id = %d \n         ORDER BY id ASC \n         LIMIT %d OFFSET %d",
         $batch_id, $limit, $offset
     ));
 
@@ -123,7 +116,7 @@ function ngcs_batches_delete_row(WP_REST_Request $request)
 
     $row_id = intval($request->get_param('row_id'));
 
-    $table = $wpdb->prefix . 'ngcs_excel_rows';
+    $table = $wpdb->prefix . 'ngcs_batch_rows';
 
     $wpdb->delete($table, ['id' => $row_id]);
 
@@ -141,8 +134,8 @@ function ngcs_batches_delete_batch(WP_REST_Request $request)
 
     $batch_id = intval($request->get_param('batch_id'));
 
-    $tbl_rows   = $wpdb->prefix . 'ngcs_excel_rows';
-    $tbl_batches = $wpdb->prefix . 'ngcs_excel_batches';
+    $tbl_rows   = $wpdb->prefix . 'ngcs_batch_rows';
+    $tbl_batches = $wpdb->prefix . 'ngcs_batches';
 
     $wpdb->delete($tbl_rows, ['batch_id' => $batch_id]);
     $wpdb->delete($tbl_batches, ['id' => $batch_id]);
@@ -189,7 +182,7 @@ function ngcs_batches_batch_stats(WP_REST_Request $request)
 
     $batch_id = intval($request->get_param('batch_id'));
 
-    $table = $wpdb->prefix . 'ngcs_excel_rows';
+    $table = $wpdb->prefix . 'ngcs_batch_rows';
 
     $counts = [
         'total'     => 0,
@@ -202,7 +195,7 @@ function ngcs_batches_batch_stats(WP_REST_Request $request)
         'not_sent'  => 0,
     ];
 
-    foreach ($counts as $key => &$v) {
+    foreach ($counts as $key => &\$v) {
         $v = intval($wpdb->get_var(
             $wpdb->prepare(
                 "SELECT COUNT(*) FROM $table WHERE batch_id=%d AND status=%s",
