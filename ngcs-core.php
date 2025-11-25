@@ -1,10 +1,14 @@
 <?php
 /**
  * Plugin Name: NGCS Core
+ * Plugin URI: https://github.com/ngcs25/ngcs-core
+ * GitHub Plugin URI: https://github.com/ngcs25/ngcs-core
  * Description: Main core engine for NGCS platform (Excel Messaging Engine, WA automation, n8n integration)
- * Version: 3.00
+ * Version: 3.0.0
  * Author: NGCS
+ * License: GPL-2.0-or-later
  */
+
 
 if (!defined('ABSPATH')) exit;
 
