@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NGCS Core
  * Description: Main core engine for NGCS platform (Excel Messaging Engine, WA automation, n8n integration)
- * Version: 1.0.0
+ * Version: 2.01
  * Author: NGCS
  */
 
